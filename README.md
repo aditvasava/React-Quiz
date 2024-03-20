@@ -1,1 +1,1 @@
-A Quiz application built using useReducer
+A Quiz application built using useReducer of react
