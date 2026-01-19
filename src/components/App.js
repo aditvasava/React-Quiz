@@ -13,12 +13,11 @@ import Footer from "./Footer";
 
 const initialState = {
   questions: [],
-  status: "loading",
+  status: "loading", // All possible states of status - loading, error, ready, active, finished
   index: 0,
   answer: null,
   score: 0,
   secondsRemaining: null,
-  // loading, error, ready, active, finished
 };
 
 function reducer(state, action) {
@@ -31,7 +30,7 @@ function reducer(state, action) {
       return {
         ...state,
         status: "active",
-        secondsRemaining: state.questions.length * 30,
+        secondsRemaining: state.questions.length * 300,
       };
     case "newAnswer":
       const question = state.questions.at(state.index);
@@ -61,12 +60,12 @@ function reducer(state, action) {
 }
 
 function App() {
-  const [
-    { questions, status, index, answer, score, secondsRemaining },
-    dispatch,
-  ] = useReducer(reducer, initialState);
+  const [{ questions, status, index, answer, score, secondsRemaining }, dispatch] = useReducer(reducer, initialState);
+  
   const numQuestions = questions.length;
+  
   const maxScore = questions.reduce((prev, cur) => prev + cur.points, 0);
+  
   useEffect(function () {
     fetch("http://localhost:8000/questions")
       .then((res) => res.json())
@@ -76,7 +75,8 @@ function App() {
 
   return (
     <div className="app">
-      <Header />
+      {/* Header is just displaying logo and a name - presentational component */}
+      <Header /> 
       <Main>
         {status === "loading" && <Loader />}
         {status === "error" && <Error />}
